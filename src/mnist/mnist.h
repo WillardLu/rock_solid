@@ -9,10 +9,12 @@
 #include <eigen3/Eigen/Dense>
 #include <fstream>
 #include <iostream>
+#include <unordered_map>
 
 using std::ifstream;
 using std::ios;
 using std::string;
+using std::unordered_map;
 
 using Eigen::Dynamic;
 using Eigen::Matrix;
@@ -20,23 +22,25 @@ using Eigen::MatrixXf;
 using Eigen::RowMajor;
 
 typedef Matrix<uint8_t, Dynamic, Dynamic> MatrixXb;
-typedef Matrix<float, Dynamic, Dynamic, RowMajor> MatrixXf_rm;
 
 class Mnist {
  public:
-  Mnist();
+  Mnist(unordered_map<std::string, std::string> &config);
   ~Mnist();
-  string LoadMnist(int argc, char *dir);
+  string LoadMnist();
 
-  int train_size_ = 60000;
-  int test_size_ = 10000;
+  int train_size_;
+  int test_size_;
   int img_size_ = 784;
-  MatrixXf_rm train_img_ = MatrixXf_rm::Zero(60000, 784);
-  MatrixXb train_label_ = MatrixXb::Zero(60000, 1);
-  MatrixXb train_one_hot_ = MatrixXb::Zero(60000, 10);
-  MatrixXf_rm test_img_ = MatrixXf_rm::Zero(10000, 784);
-  MatrixXb test_label_ = MatrixXb::Zero(10000, 1);
-  MatrixXb test_one_hot_ = MatrixXb::Zero(10000, 10);
+  int img_height_ = 28;
+  int img_width_ = 28;
+  string file_[4];
+  MatrixXf train_img_;
+  MatrixXb train_label_;
+  MatrixXb train_one_hot_;
+  MatrixXf test_img_;
+  MatrixXb test_label_;
+  MatrixXb test_one_hot_;
 };
 
 #endif  // MNIST_MNIST_H_
